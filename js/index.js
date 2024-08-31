@@ -4,10 +4,17 @@ let locationName = document.querySelector('.location')
 
 
 async function getWeather(city) {
-  let response = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=086564926d9b4872bf2212818240407&q=${city}&days=3&aqi=no&alerts=no`)
-  let result = await response.json()
-  displayWeather(result)
-  return result
+  try {
+    let response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=086564926d9b4872bf2212818240407&q=${city}&days=3&aqi=no&alerts=no`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    let result = await response.json();
+    displayWeather(result);
+    return result;
+  } catch (error) {
+    console.error('Error fetching weather data:', error);
+  }
 }
 
 // getWeather('cairo')
